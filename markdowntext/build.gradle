@@ -2,10 +2,11 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'maven-publish'
+    id("org.jetbrains.kotlin.plugin.compose") version "$pKotlinVersion"
 }
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 36
     buildToolsVersion "34.0.0"
     namespace 'dev.jeziellago.compose.markdown'
 
@@ -27,11 +28,9 @@ android {
         compose true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        coreLibraryDesugaringEnabled = true
+        sourceCompatibility pJvmVersion
+        targetCompatibility pJvmVersion
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.12'
@@ -46,7 +45,7 @@ android {
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
 
     final def markwon_version = '4.6.2'
 
@@ -60,11 +59,9 @@ dependencies {
     // TODO: Change it after migrating markwon project
     implementation "com.github.jeziellago:Markwon:58aa5aba6a"
 
-    final def coil_version = "3.0.4"
-
-    api("io.coil-kt.coil3:coil:$coil_version")
-    api("io.coil-kt.coil3:coil-network-okhttp:$coil_version")
-    api("io.coil-kt.coil3:coil-gif:$coil_version")
+    api("io.coil-kt.coil3:coil:$coilVersion")
+    api("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
+    api("io.coil-kt.coil3:coil-gif:3.3.0")
 
     // Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_version"
