@@ -100,7 +100,7 @@ fun TextView.applyTextAlign(align: TextAlign) {
 }
 
 fun TextView.enableTextOverflow() {
-    doOnNextLayout {
+    addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
         if (maxLines != -1 && lineCount > maxLines) {
             val endOfLastLine = layout.getLineEnd(maxLines - 1)
             val startIndex = maxOf(0, endOfLastLine - 3)

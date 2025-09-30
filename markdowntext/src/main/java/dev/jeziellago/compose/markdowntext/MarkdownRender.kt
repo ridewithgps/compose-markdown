@@ -7,9 +7,9 @@ import android.widget.TextView
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
-import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
+import coil3.ImageLoader
+import coil3.gif.AnimatedImageDecoder
+import coil3.gif.GifDecoder
 import dev.jeziellago.compose.markdowntext.plugins.core.MardownCorePlugin
 import dev.jeziellago.compose.markdowntext.plugins.image.ImagesPlugin
 import dev.jeziellago.compose.markdowntext.plugins.syntaxhighlight.SyntaxHighlightPlugin
@@ -43,7 +43,7 @@ internal object MarkdownRender {
         val coilImageLoader = imageLoader ?: ImageLoader.Builder(context)
             .components {
                 if (SDK_INT >= 28) {
-                    add(ImageDecoderDecoder.Factory())
+                    add(AnimatedImageDecoder.Factory())
                 } else {
                     add(GifDecoder.Factory())
                 }
@@ -59,9 +59,9 @@ internal object MarkdownRender {
                 )
             )
             .usePlugin(HtmlPlugin.create())
-            .usePlugin(ImagesPlugin.create(context, coilImageLoader))
-            .usePlugin(StrikethroughPlugin.create())
-            .usePlugin(TablePlugin.create(context))
+            //.usePlugin(ImagesPlugin.create(context, coilImageLoader))
+            //.usePlugin(StrikethroughPlugin.create())
+            //.usePlugin(TablePlugin.create(context))
             .usePlugin(LinkifyPlugin.create(linkifyMask))
             .usePlugin(TaskListPlugin.create(context))
             .apply {
@@ -87,6 +87,9 @@ internal object MarkdownRender {
                         builder.headingBreakColor(headingBreakColor.toArgb())
                     }
                     builder.bulletWidth(style.fontSize.value.toInt())
+
+                    val fixedHeaderScale = 1.0f
+                    builder.headingTextSizeMultipliers(List(6) { fixedHeaderScale }.toFloatArray())
                 }
 
                 override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
