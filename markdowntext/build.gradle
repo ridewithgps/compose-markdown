@@ -27,6 +27,9 @@ android {
     buildFeatures {
         compose true
     }
+    publishing {
+        singleVariant('release')
+    }
     compileOptions {
         coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_17
